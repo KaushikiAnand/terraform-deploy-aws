@@ -16,3 +16,7 @@ resource "aws_instance" "VM" {
     Name = var.instance_name
   }
 }
+
+provider "aws" {
+  region = var.aws_region
+}
