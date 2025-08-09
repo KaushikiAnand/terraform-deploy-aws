@@ -32,9 +32,9 @@ jobs:
           working-directory: environment/prod
     
         - name: Plan Terraform deployment
-          run: terraform plan -out=tfplan -var="aws_region=${{ env.AWS_REGION }}"
+          run: terraform plan -out=tfplan -var="aws_region=us-west-2"
           working-directory: environment/prod
     
         - name: Apply Terraform deployment
-          run: terraform apply -auto-approve tfplan -var="aws_region=${{ env.AWS_REGION }}"
+          run: terraform apply -auto-approve tfplan -var="aws_region=us-west-2"
           working-directory: environment/prod
