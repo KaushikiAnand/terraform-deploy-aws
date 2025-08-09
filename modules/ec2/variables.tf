@@ -9,9 +9,3 @@ variable "instance_name" {
   type        = string
   default     = "AppServer"
 }
-
-variable "aws_region" {
-  description = "AWS region to deploy resources"
-  type        = string
-  default     = "us-west-2"  
-}
