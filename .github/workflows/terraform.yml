@@ -37,5 +37,5 @@ jobs:
           working-directory: environment/prod
     
         - name: Apply Terraform deployment
-          run: terraform apply -auto-approve tfplan -var="aws_region=${AWS_REGION}"
+          run: terraform apply -auto-approve tfplan
           working-directory: environment/prod
