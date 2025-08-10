@@ -23,6 +23,16 @@ jobs:
           uses: hashicorp/setup-terraform@v2
           with:
             terraform_version: 1.6.0
+
+        - name: Fetch latest Ubuntu AMI ID
+          run: |
+            AMI_ID=$(aws ec2 describe-images \
+            --region $AWS_REGION \
+            --owners 099720109477 \
+            --filters "Name=name,Values=ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*" \
+            --query 'Images | sort_by(@, &CreationDate) | [-1].ImageId' \
+            --output text)
+            echo "ubuntu_ami_id=$AMI_ID" >> $GITHUB_ENV
     
         - name: Initialize Terraform
           run: terraform init
@@ -33,9 +43,9 @@ jobs:
           working-directory: environment/prod
     
         - name: Plan Terraform deployment
-          run: terraform plan -out=tfplan -var="aws_region=us-west-2"
+          run: terraform plan -out=tfplan -var="aws_region=${AWS_REGION}" -var="ubuntu_ami_id=${ubuntu_ami_id}"
           working-directory: environment/prod
     
         - name: Apply Terraform deployment
-          run: terraform apply -auto-approve tfplan -var="aws_region=us-west-2"
+          run: terraform apply -auto-approve tfplan -var="aws_region=${AWS_REGION}" -var="ubuntu_ami_id=${ubuntu_ami_id}"
           working-directory: environment/prod

@@ -9,3 +9,8 @@ variable "instance_name" {
   type        = string
   default     = "AppServer"
 }
+variable "ubuntu_ami_id" {
+  description = "AMI ID for Ubuntu"
+  type        = string
+}
+
