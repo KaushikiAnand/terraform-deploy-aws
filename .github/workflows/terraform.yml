@@ -24,13 +24,12 @@ jobs:
           with:
             terraform_version: 1.6.0
 
-        - name: Fetch latest Ubuntu AMI ID
+        - name: Get AMI ID from SSM Parameter Store
           run: |
-            AMI_ID=$(aws ec2 describe-images \
+            AMI_ID=$(aws ssm get-parameter \
+            --name "/ubuntu/latest_ami" \
             --region $AWS_REGION \
-            --owners 099720109477 \
-            --filters "Name=name,Values=ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*" \
-            --query 'Images | sort_by(@, &CreationDate) | [-1].ImageId' \
+            --query "Parameter.Value" \
             --output text)
             echo "ubuntu_ami_id=$AMI_ID" >> $GITHUB_ENV
     
