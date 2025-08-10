@@ -13,5 +13,5 @@ variable "instance_name" {
 variable "ubuntu_ami_id" {
   description = "AMI ID for Ubuntu"
   type        = string
-  default     = "ami-0f74c08b8b5effa56"
+  default     = "ami-087c04f3c2c0c6f6d"
 }
