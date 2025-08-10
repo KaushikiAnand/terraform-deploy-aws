@@ -23,15 +23,6 @@ jobs:
           uses: hashicorp/setup-terraform@v2
           with:
             terraform_version: 1.6.0
-
-        - name: Get AMI ID from SSM Parameter Store
-          run: |
-            AMI_ID=$(aws ssm get-parameter \
-            --name "/ubuntu/latest_ami" \
-            --region $AWS_REGION \
-            --query "Parameter.Value" \
-            --output text)
-            echo "ubuntu_ami_id=$AMI_ID" >> $GITHUB_ENV
     
         - name: Initialize Terraform
           run: terraform init
@@ -42,9 +33,9 @@ jobs:
           working-directory: environment/prod
     
         - name: Plan Terraform deployment
-          run: terraform plan -out=tfplan -var="aws_region=${AWS_REGION}" -var="ubuntu_ami_id=${ubuntu_ami_id}"
+          run: terraform plan -out=tfplan -var="aws_region=${AWS_REGION}"
           working-directory: environment/prod
     
         - name: Apply Terraform deployment
-          run: terraform apply -auto-approve tfplan -var="aws_region=${AWS_REGION}" -var="ubuntu_ami_id=${ubuntu_ami_id}"
+          run: terraform apply -auto-approve tfplan -var="aws_region=${AWS_REGION}"
           working-directory: environment/prod
